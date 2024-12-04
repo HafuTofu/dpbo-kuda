@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app.dart';
+import 'materials.dart';
 import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(const Color(0xFF575757), 'CIG APP LOGIN'),
+      appBar: Materials().header(const Color(0xFF575757), 'CIG APP LOGIN'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(

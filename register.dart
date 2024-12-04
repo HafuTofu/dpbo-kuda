@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'app.dart';
+import 'materials.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(const Color(0xFF808080), 'CIG APP REGISTER'),
+      appBar: Materials().header(const Color(0xFF808080), 'CIG APP REGISTER'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
