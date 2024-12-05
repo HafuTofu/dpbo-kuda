@@ -91,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => Home(username: _usernameController.text, password: _passwordController.text)),
                     );
@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
 
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginScreen()),
                   );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'materials.dart';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   final String username;
@@ -16,51 +17,47 @@ class _FooterState extends State<Home> {
   List<Color> pallete = Materials().getFootColors();
   List<Widget> bods = const [
     Dashboard(),
-    Text(
-      'Under\nMaintenance...',
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
+    Center(
+      child: Text(
+        'Under\nMaintenance...',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     ),
-    Text(
-      'Under\nMaintenance...',
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
+    Center(
+      child: Text(
+        'Under\nMaintenance...',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     ),
-    Text(
-      'Under\nMaintenance...',
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
+    Center(
+      child: Text(
+        'Under\nMaintenance...',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     ),
-    Text(
-      'Under\nMaintenance...',
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
-      ),
-      textAlign: TextAlign.center,
-    )
+    ProfilePage()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Materials().header(pallete[_curidx],'CIG APP'),
-      body: Center(
-        child: bods[_curidx],
-      ),
+      body: bods[_curidx],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int newidx) {
           setState(() {
