@@ -1,38 +1,11 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: CourseDetailPage(),
-    );
-  }
-}
+import 'materials.dart';
 
 class CourseDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: "Beranda"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag), label: "Market"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money), label: "Dana"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.school), label: "Kursus"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: "Akun"),
-        ],
-        type: BottomNavigationBarType.fixed,
-      ),
+      appBar: Materials().header(Colors.grey, 'DETAIL PRODUK'), 
       body: Column(
         children: [
           // Top Image Section
