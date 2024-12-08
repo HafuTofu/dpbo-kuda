@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'app.dart';
 import 'login.dart';
+import 'app.dart';
+import 'materials.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -18,24 +20,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 179, 179, 179),
-        shadowColor: Colors.black,
-        toolbarHeight: 40,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'CIG APP REGISTER',
-          style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ),
+      appBar: Materials().header(const Color(0xFF808080), 'CIG APP REGISTER'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
+              TextFormField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your username';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -86,34 +91,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    print('Login button pressed');
+                    Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home(username: _usernameController.text, password: _passwordController.text)),
+                    );
                   }
                 },
+                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF808080), foregroundColor: Colors.white),
                 child: const Text('Register'),
               ),
-              const SizedBox(height: 20),
               ElevatedButton(
 
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginScreen()),
                   );
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(1, 179, 179, 179), foregroundColor: Colors.blue),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: const Color(0xFF575757)),
                 child: const Text('Login'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Home()),
-                  );
-                }
-                ,
-                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(1, 179, 179, 179), foregroundColor: Colors.blue),
-                child: const Text('PreLog(Beta)'),
               ),
               ],
           ),

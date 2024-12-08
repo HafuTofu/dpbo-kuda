@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app.dart';
+import 'materials.dart';
 import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,24 +12,13 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 179, 179, 179),
-        shadowColor: Colors.black,
-        toolbarHeight: 40,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'CIG APP LOGIN',
-          style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ),
+      appBar: Materials().header(const Color(0xFF575757), 'CIG APP LOGIN'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -36,14 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               TextFormField(
-                controller: _emailController,
+                controller: _usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
+                    return 'Please enter your username';
                   }
                   return null;
                 },
@@ -55,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
-                obscureText: true,
+                obscureText: true,  
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
@@ -67,37 +57,24 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Home()),
+                    MaterialPageRoute(builder: (context) => Home(username: _usernameController.text, password: _passwordController.text)),
                   );
                   }
                 },
+                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF575757), foregroundColor: Colors.white),                
                 child: const Text('Login'),
               ),
-              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const RegisterScreen()),
                   );
-                }
-                ,
-                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(1, 179, 179, 179), foregroundColor: Colors.blue),
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: const Color(0xFF808080)),                
                 child: const Text('Register'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Home()),
-                  );
-                }
-                ,
-                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(1, 179, 179, 179), foregroundColor: Colors.blue),
-                child: const Text('PreLog(Beta)'),
               ),
             ],
           ),
