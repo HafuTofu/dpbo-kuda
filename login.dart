@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'materials.dart';
 import 'register.dart';
+import 'detail_market.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

@@ -25,7 +25,7 @@ class DetailCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'nama kursus',
                       style: TextStyle(
                         fontSize: 24,
@@ -33,24 +33,24 @@ class DetailCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'jenis kursus',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.pinkAccent,
                       ),
                     ),
-                    SizedBox(height: 4),
-                    Text(
+                    const SizedBox(height: 4),
+                    const Text(
                       'jumlah orang ?/?',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 16),
-                    Text(
+                    const SizedBox(height: 16),
+                    const Text(
                       'Deskripsi kursus',
                       style: TextStyle(
                         fontSize: 18,
@@ -58,19 +58,19 @@ class DetailCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                       style: TextStyle(color: Colors.white),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Column(
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -86,16 +86,16 @@ class DetailCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Center(
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 80, vertical: 16),
                           backgroundColor: Colors.grey,
                         ),
-                        child: Text(
+                        child: const Text(
                           'ikuti',
                           style: TextStyle(color: Colors.black),
                         ),

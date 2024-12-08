@@ -26,7 +26,7 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               buildTextField("nama panjang", "nama panjang"),
               buildTextField("tanggal lahir", "dd/mm/yy"),
               buildTextField("gender", "male/female"),
@@ -34,15 +34,15 @@ class ProfilePage extends StatelessWidget {
               buildTextField("kode pos", "kode pos"),
               buildTextField("nomor HP", "nomor HP"),
               buildTextField("email", "email"),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Icon(Icons.logout),
-                  label: Text("log out"),
+                  icon: const Icon(Icons.logout),
+                  label: const Text("log out"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[800],
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   ),
                 ),
               ),
@@ -59,7 +59,7 @@ class ProfilePage extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
     );
