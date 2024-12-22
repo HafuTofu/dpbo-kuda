@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'materials.dart';
 import 'register.dart';
-import 'detail_market.dart';
+import '../controller/sqlite.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
-                obscureText: true,  
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
@@ -56,25 +58,42 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home(username: _usernameController.text, password: _passwordController.text)),
-                  );
+                    final user = await _databaseHelper.loginUser(
+                        _usernameController.text, _passwordController.text);
+                    if (user != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home(
+                                username: user.username,
+                                password: user.password)),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Invalid username or password')),
+                      );
+                    }
                   }
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF575757), foregroundColor: Colors.white),                
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF575757),
+                    foregroundColor: Colors.white),
                 child: const Text('Login'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()),
                   );
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: const Color(0xFF808080)),                
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF808080)),
                 child: const Text('Register'),
               ),
             ],

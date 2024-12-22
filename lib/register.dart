@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'app.dart';
 import 'materials.dart';
+import '../controller/sqlite.dart';
+import '../controller/user.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,6 +17,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -89,29 +92,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home(username: _usernameController.text, password: _passwordController.text)),
+                    print('Validation passed');
+                    final user = User(
+                      _usernameController.text,
+                      _emailController.text,
+                      _passwordController.text,
                     );
+                    print('Registering user: ${user.toMap()}');
+                    int result = await _databaseHelper.registerUser(user);
+                    print('Register result: $result');
+                    if (result > 0) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      );
+                    } else {
+                      print('Registration failed');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Registration failed')),
+                      );
+                    }
                   }
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF808080), foregroundColor: Colors.white),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF808080),
+                    foregroundColor: Colors.white),
                 child: const Text('Register'),
               ),
               ElevatedButton(
-
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
                   );
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: const Color(0xFF575757)),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF575757)),
                 child: const Text('Login'),
               ),
-              ],
+            ],
           ),
         ),
       ),
