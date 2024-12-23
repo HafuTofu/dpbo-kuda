@@ -1,8 +1,11 @@
+import 'package:dpbo_cig/detail_market.dart';
 import 'package:dpbo_cig/login.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'materials.dart';
 import 'profile.dart';
+import 'kursus.dart';
+
 
 class Home extends StatefulWidget {
   final String username;
@@ -29,17 +32,7 @@ class _FooterState extends State<Home> {
         textAlign: TextAlign.center,
       ),
     ),
-    Center(
-      child: Text(
-        'Under\nMaintenance...',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ),
+    CourseDetailsScreen(),
     ProfilePage()
   ];
 
