@@ -11,7 +11,7 @@ class DatabaseHelper {
 
   DatabaseHelper._internal();
 
-  final String databaseName = "user.db";
+  final String databaseName = "ciggapp.db";
 
   String userTable = '''
   CREATE TABLE user(
@@ -23,23 +23,26 @@ class DatabaseHelper {
   ''';
 
   String courseTable = '''
-  CREATE TABLE course(
-    id_course INTEGER PRIMARY KEY AUTOINCREMENT,
-    coursename TEXT NOT NULL,
-    coursecategory TEXT NOT NULL,
-    coursetype enum('Offline','Online') NOT NULL DEFAULT 'Online',
-    coursedesc TEXT NOT NULL,
-    coursecapacity INTEGER NOT NULL DEFAULT 1,
-    courseparticipants INTEGER NOT NULL DEFAULT 0
-  )
-  ''';
+CREATE TABLE course(
+  id_course INTEGER PRIMARY KEY AUTOINCREMENT,
+  coursename TEXT NOT NULL,
+  coursecategory TEXT NOT NULL,
+  coursetype TEXT NOT NULL CHECK (coursetype IN ('Offline', 'Online')),
+  coursedesc TEXT NOT NULL,
+  coursecapacity INTEGER NOT NULL DEFAULT 1,
+  courseparticipants INTEGER NOT NULL DEFAULT 0
+)
+''';
 
   String enrollmentTable = '''
-  CREATE TABLE enrollment(
-    id_course INTEGER FOREIGN KEY REFERENCES(course(id_course)),
-    id_user INTEGER FOREIGN KEY REFERENCES(user(id_user)),
-  )
-  ''';
+CREATE TABLE enrollment(
+  id_course INTEGER NOT NULL,
+  id_user INTEGER NOT NULL,
+  FOREIGN KEY (id_course) REFERENCES course (id_course),
+  FOREIGN KEY (id_user) REFERENCES user (id_user),
+  PRIMARY KEY (id_course, id_user)
+)
+''';
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -140,8 +143,9 @@ class DatabaseHelper {
 
   Future<int> unenrollmentCourse(Enrollment enrollment) async {
     Database db = await database;
-    var result = await db
-        .delete('course', where: 'id_course = ?', whereArgs: [enrollment.idcourse]);
+    var result = await db.delete('enrollment',
+        where: 'id_course = ? AND id_user = ? ',
+        whereArgs: [enrollment.idcourse]);
     return result;
   }
 //ENROLLMENT END undone
