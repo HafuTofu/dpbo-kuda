@@ -29,6 +29,8 @@ CREATE TABLE course(
   coursecategory TEXT NOT NULL,
   coursetype TEXT NOT NULL CHECK (coursetype IN ('Offline', 'Online')),
   coursedesc TEXT NOT NULL,
+  coursephone TEXT NOT NULL,
+  coursemail TEXT NOT NULL,
   coursecapacity INTEGER NOT NULL DEFAULT 1,
   courseparticipants INTEGER NOT NULL DEFAULT 0
 )
@@ -41,6 +43,28 @@ CREATE TABLE enrollment(
   FOREIGN KEY (id_course) REFERENCES course (id_course),
   FOREIGN KEY (id_user) REFERENCES user (id_user),
   PRIMARY KEY (id_course, id_user)
+)
+''';
+
+  String marketTable = '''
+CREATE TABLE market(
+  id_market INTEGER PRIMARY KEY AUTOINCREMENT,
+  marketname TEXT NOT NULL,
+  marketype TEXT NOT NULL,
+  marketloc TEXT NOT NULL,
+  marketdesc TEXT NOT NULL,
+  marketphone TEXT NOT NULL,
+  marketmail TEXT NOT NULL
+)
+''';
+
+  String marketsaveTable = '''
+CREATE TABLE marketsave(
+  id_market INTEGER NOT NULL,
+  id_user INTEGER NOT NULL,
+  FOREIGN KEY (id_market) REFERENCES course (id_market),
+  FOREIGN KEY (id_user) REFERENCES user (id_user),
+  PRIMARY KEY (id_market, id_user)
 )
 ''';
 
@@ -129,24 +153,46 @@ CREATE TABLE enrollment(
   }
 //COURSE END done
 
-//ENROLLMENT START undone
+//ENROLLMENT START
   Future<List<Map<String, dynamic>>> getEnrollmentMapList() async {
     Database db = await database;
     var result = await db.query('enrollment', orderBy: 'id_course ASC');
     return result;
   }
 
-  Future<int> enrollmentCourse(Enrollment enrollment) async {
+  Future<int> enrollmentCourse(Enrollment enrollment, Course course) async {
     Database db = await database;
-    return await db.insert('enrollment', enrollment.toMap());
+
+    return await db.transaction((txn) async {
+      course.courseparticipants += 1;
+
+      await txn.update(
+        'course',
+        course.toMap(),
+        where: 'id_course = ?',
+        whereArgs: [course.idcourse],
+      );
+
+      return await txn.insert('enrollment', enrollment.toMap());
+    });
   }
 
-  Future<int> unenrollmentCourse(Enrollment enrollment) async {
+  Future<int> unenrollmentCourse(Enrollment enrollment, Course course) async {
     Database db = await database;
-    var result = await db.delete('enrollment',
-        where: 'id_course = ? AND id_user = ? ',
-        whereArgs: [enrollment.idcourse]);
-    return result;
+    return db.transaction((txn) async {
+      course.courseparticipants -= 1;
+
+      await txn.update(
+        'course',
+        course.toMap(),
+        where: 'id_course = ?',
+        whereArgs: [course.idcourse],
+      );
+
+      return await txn.delete('enrollment',
+          where: 'id_course = ? AND id_user = ? ',
+          whereArgs: [enrollment.idcourse, enrollment.iduser]);
+    });
   }
 //ENROLLMENT END undone
 }
