@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'materials.dart';
 
 class DetailCard extends StatelessWidget {
-  const DetailCard({super.key});
-
+  final String header;
+  const DetailCard({super.key, required this.header});
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Materials().header(Colors.grey, 'DETAIL PRODUK'), 
+      appBar: Materials().header(Colors.grey, header), 
       body: Column(
         children: [
-          // Top Image Section
           Image.asset(
-            'images/image.jpg', // replace with your image asset path
+            'images/image.jpg', 
             height: 200,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
-          // Content Section
           Expanded(
             child: Container(
               color: Colors.teal,

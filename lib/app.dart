@@ -1,16 +1,15 @@
-import 'package:dpbo_cig/detail_market.dart';
 import 'package:dpbo_cig/login.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'materials.dart';
 import 'profile.dart';
 import 'kursus.dart';
+import 'controller/user.dart';
 
 
 class Home extends StatefulWidget {
-  final String username;
-  final String password;
-  const Home({super.key, required this.username, required this.password});
+  final User user;
+  const Home({super.key, required this.user});
 
   @override
   State<Home> createState() => _FooterState();
@@ -19,8 +18,12 @@ class Home extends StatefulWidget {
 class _FooterState extends State<Home> {
   int _curidx = 0;
   List<Color> pallete = Materials().getFootColors();
-  List<Widget> bods = const [
-    Dashboard(),
+  
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> bods =  [
+    Dashboard(user: widget.user),
     Center(
       child: Text(
         'Under\nMaintenance...',
@@ -36,8 +39,6 @@ class _FooterState extends State<Home> {
     ProfilePage()
   ];
 
-  @override
-  Widget build(BuildContext context) {
     List<dynamic> addbtn = [
       null,
       FloatingActionButton(

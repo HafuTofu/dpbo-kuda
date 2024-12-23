@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'materials.dart';
 import 'detailcard.dart';
+import 'controller/sqlite.dart';
+import 'controller/user.dart';
 
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
-
+  const Dashboard({super.key, required this.user});
+  final User user;
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
+  List<Map<String, dynamic>> _courses = [];
+  List<Map<String, dynamic>> _markets = [];
+
+  void _fetchCoursesNMarkets() async {
+    final courses = await _databaseHelper.getCourseMapList();
+    final markets = await _databaseHelper.getMarketMapList();
+    setState(() {
+      _courses = courses;
+      _markets = markets;
+    });
+  }
+
   @override
+  void initState() {
+    super.initState();
+    _fetchCoursesNMarkets();
+  }
+
   Widget build(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -88,13 +107,13 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'nama profil',
+                        widget.user.username,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('089043981224'),
+                      Text(widget.user.email),
                     ],
                   ),
                 ],
@@ -116,7 +135,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     )),
                     const SizedBox(height: 10),
-                    appslider(),
+                    appslidermarket('DETAIL MARKET', _markets),
                     const SizedBox(height: 20),
                     const Center(
                         child: Text(
@@ -128,7 +147,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     )),
                     const SizedBox(height: 10),
-                    appslider(),
+                    appslidercourse('DETAIL KURSUS', _courses),
                     const SizedBox(height: 20),
                   ]),
             ),
@@ -138,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Container appslider() {
+  Container appslidermarket(String header, List<Map<String, dynamic>> map) {
     Container container = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -153,23 +172,64 @@ class _DashboardState extends State<Dashboard> {
       height: 130,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: 3,
+          itemCount: map.length,
           separatorBuilder: (context, index) => const SizedBox(
                 width: 12,
               ),
           itemBuilder: (context, index) {
+            final _map = map[index];
             return GestureDetector(
               onTap: () {
                 setState(() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailCard()),
+                    MaterialPageRoute(builder: (context) => DetailCard(header: header,)),
                   );
                 });
                 },
               child:  SizedBox(
               height: 130,
-              child: Materials().marketcard('images/pict-toko.png'),
+              child: Materials().marketcard('images/pict-toko.png',_map),
+            ),
+            );
+          }),
+    );
+    return container;
+  }
+
+  Container appslidercourse(String header, List<Map<String, dynamic>> map) {
+    Container container = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 4,
+            offset: const Offset(2, 5),
+          ),
+        ],
+      ),
+      height: 130,
+      child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: map.length,
+          separatorBuilder: (context, index) => const SizedBox(
+                width: 12,
+              ),
+          itemBuilder: (context, index) {
+            final _map = map[index];
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailCard(header: header,)),
+                  );
+                });
+                },
+              child:  SizedBox(
+              height: 130,
+              child: Materials().coursecard('images/pict-toko.png',_map),
             ),
             );
           }),

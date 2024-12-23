@@ -55,7 +55,7 @@ class Materials {
     return verdiv;
   }
 
-  Container marketcard(String photopath) {
+  Container marketcard(String photopath, Map<String, dynamic> market) {
     Container contents = Container(
         height: 130,
         width: 161,
@@ -92,7 +92,7 @@ class Materials {
                       children: [
                         const Icon(Icons.home_work_rounded, size: 15),
                         Materials().verdiv(const Color.fromRGBO(66, 66, 66, 1), 1, 1, 0.5),
-                        Materials().flextext('Nama Toko atau Jasa.', Colors.black,
+                        Materials().flextext(market['marketname'], Colors.black,
                             FontWeight.bold, 11),
                       ],
                     ),
@@ -114,7 +114,81 @@ class Materials {
                           Materials().verdiv(const Color.fromRGBO(189, 189, 189, 1), 2, 1,
                               0.5),
                           Center(
-                            child: Materials().flextext('Nama Kecamatan.', Colors.grey,
+                            child: Materials().flextext(market['marketloc'], Colors.grey,
+                                FontWeight.bold, 9),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ]));
+    return contents;
+  }
+
+  Container coursecard(String photopath, Map<String, dynamic> course) {
+    Container contents = Container(
+        height: 130,
+        width: 161,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 4,
+              offset: const Offset(2, 5),
+            ),
+          ],
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            child: Image.asset(
+              photopath,
+              height: 80,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  child: IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.school_rounded, size: 15),
+                        Materials().verdiv(const Color.fromRGBO(66, 66, 66, 1), 1, 1, 0.5),
+                        Materials().flextext(course['coursename'], Colors.black,
+                            FontWeight.bold, 11),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.location_on_rounded,
+                            size: 15,
+                            color: Colors.grey,
+                          ),
+                          Materials().verdiv(const Color.fromRGBO(189, 189, 189, 1), 2, 1,
+                              0.5),
+                          Center(
+                            child: Materials().flextext(course['coursetype'], Colors.grey,
                                 FontWeight.bold, 9),
                           ),
                         ],
