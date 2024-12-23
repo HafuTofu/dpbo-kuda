@@ -94,7 +94,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    print('Validation passed');
                     final user = User(
                       _usernameController.text,
                       _emailController.text,
