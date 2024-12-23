@@ -1,15 +1,4 @@
 class Market {
-  String marketTable = '''
-CREATE TABLE market(
-  id_market INTEGER PRIMARY KEY AUTOINCREMENT,
-  marketname TEXT NOT NULL,
-  marketype TEXT NOT NULL,
-  marketloc TEXT NOT NULL,
-  marketdesc TEXT NOT NULL,
-  marketphone TEXT NOT NULL,
-  marketmail TEXT NOT NULL
-)
-''';
   int? idmarket;
   late String marketname;
   late String marketype;

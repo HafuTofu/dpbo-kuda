@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import 'user.dart';
 import 'enrollment.dart';
 import 'course.dart';
+import 'market.dart';
+import 'marketsave.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -83,6 +85,8 @@ CREATE TABLE marketsave(
         await db.execute(userTable);
         await db.execute(courseTable);
         await db.execute(enrollmentTable);
+        await db.execute(marketTable);
+        await db.execute(marketsaveTable);
       },
     );
   }
@@ -153,7 +157,7 @@ CREATE TABLE marketsave(
   }
 //COURSE END done
 
-//ENROLLMENT START
+//ENROLLMENT START done
   Future<List<Map<String, dynamic>>> getEnrollmentMapList() async {
     Database db = await database;
     var result = await db.query('enrollment', orderBy: 'id_course ASC');
@@ -194,5 +198,56 @@ CREATE TABLE marketsave(
           whereArgs: [enrollment.idcourse, enrollment.iduser]);
     });
   }
-//ENROLLMENT END undone
+//ENROLLMENT END done
+
+//MARKET START done
+  Future<List<Map<String, dynamic>>> getMarketMapList() async {
+    Database db = await database;
+    var result = await db.query('market', orderBy: 'id_market ASC');
+    return result;
+  }
+
+  Future<int> registerMarket(Market market) async {
+    Database db = await database;
+    return await db.insert('market', market.toMap());
+  }
+
+  Future<int> updateMarket(Market market) async {
+    Database db = await database;
+    var result = await db.update('market', market.toMap(),
+        where: 'id_market = ?', whereArgs: [market.idmarket]);
+    return result;
+  }
+
+  Future<int> deleteMarket(Market market) async {
+    Database db = await database;
+    var result = await db
+        .delete('market', where: 'id_market = ?', whereArgs: [market.idmarket]);
+    return result;
+  }
+//MARKET END done
+
+//MARKET SAVE START
+  Future<List<Map<String, dynamic>>> getMarketSaveMapList() async {
+    Database db = await database;
+    var result = await db.query('marketsave', orderBy: 'id_market ASC');
+    return result;
+  }
+
+  Future<int> marketSave(MarketSave marketsave) async {
+    Database db = await database;
+    return await db.transaction((txn) async {
+      return await txn.insert('marketsave', marketsave.toMap());
+    });
+  }
+
+  Future<int> marketUnsave(MarketSave marketsave) async {
+    Database db = await database;
+    return db.transaction((txn) async {
+      return await txn.delete('enrollment',
+          where: 'id_market = ? AND id_user = ? ',
+          whereArgs: [marketsave.idmarket, marketsave.iduser]);
+    });
+  }
+//MARKET SAVE END done
 }
