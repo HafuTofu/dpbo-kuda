@@ -100,9 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _emailController.text,
                       _passwordController.text,
                     );
-                    print('Registering user: ${user.toMap()}');
                     int result = await _databaseHelper.registerUser(user);
-                    print('Register result: $result');
                     if (result > 0) {
                       Navigator.pushReplacement(
                         context,
@@ -110,7 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             builder: (context) => const LoginScreen()),
                       );
                     } else {
-                      print('Registration failed');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Registration failed')),
                       );

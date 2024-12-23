@@ -48,25 +48,29 @@ class _FooterState extends State<Home> {
     List<dynamic> addbtn = [
       null,
       FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)=> const LoginScreen())
-        ),
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen())),
         tooltip: 'Add Course',
         child: const Icon(Icons.add),
       ),
       FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)=> const LoginScreen())
-        ),
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen())),
         tooltip: 'Add Market',
         child: const Icon(Icons.add),
       ),
       null
     ];
+
+    List<AppBar> appbars = [
+      Materials().header(pallete[0], 'DASHBOARD'),
+      Materials().header(pallete[1], 'KURSUS'),
+      Materials().header(pallete[2], 'MARKET'),
+      Materials().header(pallete[3], 'PROFILE')
+    ];
+
     return Scaffold(
-      appBar: Materials().header(pallete[_curidx],'CIG APP'),
+      appBar: appbars[_curidx],
       body: bods[_curidx],
       floatingActionButton: addbtn[_curidx],
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
