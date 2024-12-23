@@ -40,31 +40,30 @@ class _FooterState extends State<Home> {
         textAlign: TextAlign.center,
       ),
     ),
-    Center(
-      child: Text(
-        'Under\nMaintenance...',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ),
     ProfilePage()
   ];
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> addbtn = [
+    List<dynamic> addbtn = [
+      null,
       FloatingActionButton(
         onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context)=> const LoginScreen())
         ),
-        tooltip: 'Add Student',
+        tooltip: 'Add Course',
         child: const Icon(Icons.add),
       ),
+      FloatingActionButton(
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=> const LoginScreen())
+        ),
+        tooltip: 'Add Market',
+        child: const Icon(Icons.add),
+      ),
+      null
     ];
     return Scaffold(
       appBar: Materials().header(pallete[_curidx],'CIG APP'),
@@ -89,24 +88,19 @@ class _FooterState extends State<Home> {
             backgroundColor: Color(0xFF575757),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.store_mall_directory_rounded),
-            label: 'Market',
-            backgroundColor: Color(0xFF808080),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on),
-            label: 'Dana',
-            backgroundColor: Color(0xFF9c9c9c),
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.school_rounded),
             label: 'Kursus',
             backgroundColor: Color(0xFF808080),
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.store_mall_directory_rounded),
+            label: 'Market',
+            backgroundColor: Color(0xFF9c9c9c),
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person_rounded),
             label: 'Akun',
-            backgroundColor: Color(0xFF575757),
+            backgroundColor: Color(0xFF808080),
           ),
         ],
       ),
