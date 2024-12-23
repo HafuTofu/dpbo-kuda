@@ -13,7 +13,7 @@ class DetailCard extends StatelessWidget {
         children: [
           // Top Image Section
           Image.asset(
-            'assets/apples.jpg', // replace with your image asset path
+            'images/image.jpg', // replace with your image asset path
             height: 200,
             width: double.infinity,
             fit: BoxFit.cover,
