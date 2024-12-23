@@ -55,6 +55,7 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         await db.execute(userTable);
         await db.execute(courseTable);
+        await db.execute(enrollmentTable);
       },
     );
   }
