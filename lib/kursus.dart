@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class course extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  State<course> createState() => _FooterState();
+  State<Home> createState() => _FooterState();
 }
 
-class _FooterState extends State<course> {
+class _FooterState extends State<Home> {
   int _curidx = 0;
   List<Color> pallete = [
     Colors.grey,
