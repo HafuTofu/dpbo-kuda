@@ -128,5 +128,81 @@ class Materials {
         ]));
     return contents;
   }
+
+    Container marketcard2(String photopath) {
+    Container contents = Container(
+        height: 130,
+        width: 161,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+            ),
+          ],
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Center(
+            child: Column(
+              children: [
+                Text(
+                  "Course Enrolled",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+            ],)
+          ),
+
+          const Center(
+            child: Column(
+              children: [
+                Text(
+                  "0",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+            ],)
+          ),
+
+        ]));
+    return contents;
+  }
   
+Container marketcard3(String photopath) {
+    Container contents = Container(
+        height: 130,
+        width: 161,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+            ),
+          ],
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Center(
+            child: Column(
+              children: [
+                Text(
+                  "Market Saved",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+            ],)
+          ),
+
+          const Center(
+            child: Column(
+              children: [
+                Text(
+                  "0",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+            ],)
+          ),
+
+        ]));
+    return contents;
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'materials.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -28,12 +29,31 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               buildTextField("nama panjang", "nama panjang"),
-              buildTextField("tanggal lahir", "dd/mm/yy"),
-              buildTextField("gender", "male/female"),
-              buildTextField("kota", "kota"),
-              buildTextField("kode pos", "kode pos"),
-              buildTextField("nomor HP", "nomor HP"),
               buildTextField("email", "email"),
+              const Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "statistik",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                ],)
+              ),
+                          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    const SizedBox(height: 10),
+                    appslider(),
+                    const SizedBox(height: 20),
+
+                    const SizedBox(height: 10),
+                    appslider2(),
+                    const SizedBox(height: 20),
+                  ]),
+            ),
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
@@ -65,3 +85,65 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+
+  Container appslider() {
+    Container container = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 4,
+            offset: const Offset(2, 5),
+          ),
+        ],
+      ),
+      height: 130,
+      child: ListView.separated(
+          itemCount: 1,
+          separatorBuilder: (context, index) => const SizedBox(
+                width: 12,
+              ),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+
+              child:  SizedBox(
+              height: 130,
+              child: Materials().marketcard2('images/pict-toko.png'),
+            ),
+            );
+          }),
+    );
+    return container;
+  }
+
+    Container appslider2() {
+    Container container = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 4,
+            offset: const Offset(2, 5),
+          ),
+        ],
+      ),
+      height: 130,
+      child: ListView.separated(
+          itemCount: 1,
+          separatorBuilder: (context, index) => const SizedBox(
+                width: 12,
+              ),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+
+              child:  SizedBox(
+              height: 130,
+              child: Materials().marketcard3('images/pict-toko.png'),
+            ),
+            );
+          }),
+    );
+    return container;
+  }
