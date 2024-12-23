@@ -72,6 +72,35 @@ class _DashboardState extends State<Dashboard> {
                     )),
               ),
             ),
+
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.person, size: 40),
+                  SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'nama profil',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text('089043981224'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
@@ -81,18 +110,6 @@ class _DashboardState extends State<Dashboard> {
                         child: Text(
                       textAlign: TextAlign.center,
                       'Rekomendasi Market',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                    const SizedBox(height: 10),
-                    appslider(),
-                    const SizedBox(height: 20),
-                    const Center(
-                        child: Text(
-                      textAlign: TextAlign.center,
-                      'Rekomendasi Dana',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
