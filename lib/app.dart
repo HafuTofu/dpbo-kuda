@@ -1,3 +1,4 @@
+import 'package:dpbo_cig/login.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'materials.dart';
@@ -55,9 +56,21 @@ class _FooterState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> addbtn = [
+      FloatingActionButton(
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=> const LoginScreen())
+        ),
+        tooltip: 'Add Student',
+        child: const Icon(Icons.add),
+      ),
+    ];
     return Scaffold(
       appBar: Materials().header(pallete[_curidx],'CIG APP'),
       body: bods[_curidx],
+      floatingActionButton: addbtn[_curidx],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int newidx) {
           setState(() {

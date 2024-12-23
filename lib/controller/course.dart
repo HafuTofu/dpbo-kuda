@@ -3,7 +3,20 @@ class Course {
   late String coursename;
   late String coursecategory;
   late String coursedesc;
-  late String coursetype = "online";
+  late int? coursecapacity;
+  late String? coursetype;
+
+  String courseTable = '''
+  CREATE TABLE course(
+    id_course INTEGER PRIMARY KEY AUTOINCREMENT,
+    coursename TEXT NOT NULL,
+    coursecategory TEXT NOT NULL,
+    coursetype ENUM('Offline','Online') NOT NULL DEFAULT 'Online',
+    coursedesc TEXT NOT NULL,
+    coursecapacity INTEGER NOT NULL DEFAULT 1,
+    courseparticipants INTEGER NOT NULL DEFAULT 0
+  )
+  ''';
 
   Course(this.coursename, this.coursecategory, this.coursedesc, this.coursetype);
 
@@ -12,20 +25,22 @@ class Course {
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     if (idcourse != null) {
-      map['id'] = idcourse;
+      map['id_course'] = idcourse;
     }
-    map['Coursename'] = coursename;
+    map['coursename'] = coursename;
     map['coursecategory'] = coursecategory;
     map['coursedesc'] = coursedesc;
-    map['coursetype'] = coursetype;
+    map['coursecapacity'] = coursecapacity ?? 1;
+    map['coursetype'] = coursetype ?? 'online';
     return map;
   }
 
   Course.fromMap(Map<String, dynamic> map) {
     idcourse = map['id'];
-    coursename = map['Coursename'];
+    coursename = map['coursename'];
     coursecategory = map['coursecategory'];
     coursedesc = map['coursedesc'];
     coursetype = map['coursetype'];
+    coursecapacity = map['coursecapacity'];
   }
 }

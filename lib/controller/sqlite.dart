@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'user.dart';
+import 'enrollment.dart';
 import 'course.dart';
 
 class DatabaseHelper {
@@ -10,15 +11,14 @@ class DatabaseHelper {
 
   DatabaseHelper._internal();
 
-  final String databaseName = "ciggapp.db";
+  final String databaseName = "user.db";
 
   String userTable = '''
   CREATE TABLE user(
     id_user INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     email TEXT NOT NULL,
-    password TEXT NOT NULL,
-    role ENUM('writer','reader') NOT NULL DEFAULT 'reader'
+    password TEXT NOT NULL
   )
   ''';
 
@@ -27,7 +27,7 @@ class DatabaseHelper {
     id_course INTEGER PRIMARY KEY AUTOINCREMENT,
     coursename TEXT NOT NULL,
     coursecategory TEXT NOT NULL,
-    coursetype ENUM('Offline','Online') NOT NULL DEFAULT 'Online',
+    coursetype enum('Offline','Online') NOT NULL DEFAULT 'Online',
     coursedesc TEXT NOT NULL,
     coursecapacity INTEGER NOT NULL DEFAULT 1,
     courseparticipants INTEGER NOT NULL DEFAULT 0
@@ -133,15 +133,15 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> enrollmentCourse(Course course) async {
+  Future<int> enrollmentCourse(Enrollment enrollment) async {
     Database db = await database;
-    return await db.insert('course', course.toMap());
+    return await db.insert('enrollment', enrollment.toMap());
   }
 
-  Future<int> unenrollmentCourse(Course course) async {
+  Future<int> unenrollmentCourse(Enrollment enrollment) async {
     Database db = await database;
-    var result = await db.update('course', course.toMap(),
-        where: 'id_course = ?', whereArgs: [course.idcourse]);
+    var result = await db
+        .delete('course', where: 'id_course = ?', whereArgs: [enrollment.idcourse]);
     return result;
   }
 //ENROLLMENT END undone
