@@ -20,7 +20,7 @@ class User {
   }
 
   User.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
+    id = map['id_user'];
     username = map['username'];
     email = map['email'];
     password = map['password'];

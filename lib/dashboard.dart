@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'materials.dart';
-import 'detailcard.dart';
+import 'detailmarketcard.dart';
+import 'detailcoursecard.dart';
 import 'controller/sqlite.dart';
 import 'controller/user.dart';
 
@@ -135,7 +136,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     )),
                     const SizedBox(height: 10),
-                    appslidermarket('DETAIL MARKET', _markets),
+                    appslidermarket(_markets),
                     const SizedBox(height: 20),
                     const Center(
                         child: Text(
@@ -147,7 +148,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     )),
                     const SizedBox(height: 10),
-                    appslidercourse('DETAIL KURSUS', _courses),
+                    appslidercourse(_courses),
                     const SizedBox(height: 20),
                   ]),
             ),
@@ -157,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Container appslidermarket(String header, List<Map<String, dynamic>> map) {
+  Container appslidermarket(List<Map<String, dynamic>> map) {
     Container container = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -183,7 +184,7 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailCard(header: header,)),
+                    MaterialPageRoute(builder: (context) => MarketDetailPage(marketId: _map['id_market'], userId: widget.user.id!, color: Color(0xFF575757))),
                   );
                 });
                 },
@@ -197,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
     return container;
   }
 
-  Container appslidercourse(String header, List<Map<String, dynamic>> map) {
+  Container appslidercourse(List<Map<String, dynamic>> map) {
     Container container = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -223,7 +224,7 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailCard(header: header,)),
+                    MaterialPageRoute(builder: (context) => CourseDetailPage(userId: widget.user.id!, courseId: _map['id_course'],color: Color(0xFF575757),)),
                   );
                 });
                 },

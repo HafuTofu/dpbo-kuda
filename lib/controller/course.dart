@@ -11,7 +11,7 @@ class Course {
 
   Course(this.coursename, this.coursecategory, this.coursedesc, this.coursemail, this.coursephone, this.coursetype, this.coursecapacity);
 
-  Course.withId(this.idcourse, this.coursename, this.coursecategory, this.coursedesc, this.coursetype, this.coursecapacity);
+  Course.withId(this.idcourse, this.coursename, this.coursecategory, this.coursedesc, this.coursemail, this.coursephone, this.coursetype, this.coursecapacity);
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};

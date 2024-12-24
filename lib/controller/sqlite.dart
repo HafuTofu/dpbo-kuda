@@ -41,7 +41,7 @@ CREATE TABLE course(
   id_course INTEGER PRIMARY KEY AUTOINCREMENT,
   coursename TEXT NOT NULL,
   coursecategory TEXT NOT NULL,
-  coursetype TEXT NOT NULL CHECK (coursetype IN ('Offline', 'Online')),
+  coursetype TEXT NOT NULL,
   coursedesc TEXT NOT NULL,
   coursephone TEXT NOT NULL,
   coursemail TEXT NOT NULL,
@@ -61,10 +61,10 @@ CREATE TABLE enrollment(
 ''';
 
   String marketsaveTable = '''
-CREATE TABLE marketsave(
+CREATE TABLE market_save(
   id_market INTEGER NOT NULL,
   id_user INTEGER NOT NULL,
-  FOREIGN KEY (id_market) REFERENCES course (id_market),
+  FOREIGN KEY (id_market) REFERENCES market (id_market),
   FOREIGN KEY (id_user) REFERENCES user (id_user),
   PRIMARY KEY (id_market, id_user)
 )
@@ -80,7 +80,7 @@ CREATE TABLE marketsave(
     String path = join(await getDatabasesPath(), databaseName);
     return await openDatabase(
       path,
-      version: 2,
+      version: 11,
       onCreate: (db, version) async {
         await db.execute(userTable);
         await db.execute(marketTable);
@@ -89,7 +89,11 @@ CREATE TABLE marketsave(
         await db.execute(marketsaveTable);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
+        if (oldVersion < 12) {
+          await db.execute('DROP TABLE IF EXISTS market_save');
+          await db.execute('DROP TABLE IF EXISTS marketsave');
+          await db.execute('DROP TABLE IF EXISTS market');
+          await db.execute(marketsaveTable);
           await db.execute(marketTable);
         }
       },
@@ -123,7 +127,7 @@ CREATE TABLE marketsave(
   Future<int> updateUser(User user) async {
     Database db = await database;
     var result = await db.update('user', user.toMap(),
-        where: 'id_user = ?', whereArgs: [user.id], conflictAlgorithm: ConflictAlgorithm.ignore);
+        where: 'id_user = ?', whereArgs: [user.id]);
     return result;
   }
 
@@ -148,7 +152,7 @@ CREATE TABLE marketsave(
   Future<int> getTotalSaved(User user) async {
     final Database db = await database;
     var result = await db.query(
-      'marketsave',
+      'market_save',
       where: 'id_user = ?',
       whereArgs: [user.id],
     );
@@ -202,10 +206,9 @@ CREATE TABLE marketsave(
         course.toMap(),
         where: 'id_course = ?',
         whereArgs: [course.idcourse],
-        conflictAlgorithm: ConflictAlgorithm.ignore
       );
 
-      return await txn.insert('enrollment', enrollment.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
+      return await txn.insert('enrollment', enrollment.toMap());
     });
   }
 
@@ -237,13 +240,13 @@ CREATE TABLE marketsave(
 
   Future<int> registerMarket(Market market) async {
     Database db = await database;
-    return await db.insert('market', market.toMap(),conflictAlgorithm: ConflictAlgorithm.ignore);
+    return await db.insert('market', market.toMap());
   }
 
   Future<int> updateMarket(Market market) async {
     Database db = await database;
     var result = await db.update('market', market.toMap(),
-        where: 'id_market = ?', whereArgs: [market.idmarket],conflictAlgorithm: ConflictAlgorithm.ignore);
+        where: 'id_market = ?', whereArgs: [market.idmarket]);
     return result;
   }
 
@@ -258,24 +261,20 @@ CREATE TABLE marketsave(
 //MARKET SAVE START
   Future<List<Map<String, dynamic>>> getMarketSaveMapList() async {
     Database db = await database;
-    var result = await db.query('marketsave', orderBy: 'id_market ASC');
+    var result = await db.query('market_save', orderBy: 'id_market ASC');
     return result;
   }
 
   Future<int> marketSave(MarketSave marketsave) async {
     Database db = await database;
-    return await db.transaction((txn) async {
-      return await txn.insert('marketsave', marketsave.toMap(),conflictAlgorithm: ConflictAlgorithm.ignore);
-    });
+    return await db.insert('market_save', marketsave.toMap());
   }
 
   Future<int> marketUnsave(MarketSave marketsave) async {
     Database db = await database;
-    return db.transaction((txn) async {
-      return await txn.delete('enrollment',
+    return db.delete('market_save',
           where: 'id_market = ? AND id_user = ? ',
           whereArgs: [marketsave.idmarket, marketsave.iduser]);
-    });
   }
 //MARKET SAVE END done
 }

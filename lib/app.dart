@@ -4,6 +4,8 @@ import 'dashboard.dart';
 import 'materials.dart';
 import 'profile.dart';
 import 'kursus.dart';
+import 'form_add_course.dart';
+import 'form_add_market.dart';
 import 'controller/user.dart';
 
 
@@ -36,20 +38,20 @@ class _FooterState extends State<Home> {
       ),
     ),
     CourseDetailsScreen(),
-    ProfilePage()
+    ProfilePage(user: widget.user,)
   ];
 
     List<dynamic> addbtn = [
       null,
       FloatingActionButton(
         onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen())),
+            MaterialPageRoute(builder: (context) => const AddCourseForm())),
         tooltip: 'Add Course',
         child: const Icon(Icons.add),
       ),
       FloatingActionButton(
         onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen())),
+            MaterialPageRoute(builder: (context) => const AddMarketForm())),
         tooltip: 'Add Market',
         child: const Icon(Icons.add),
       ),
