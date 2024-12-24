@@ -7,9 +7,9 @@ class Market {
   late String marketphone;
   late String marketloc;
 
-  Market(this.marketname, this.marketype, this.marketdesc, this.marketloc);
+  Market(this.marketname, this.marketype, this.marketdesc, this.marketmail, this.marketphone, this.marketloc);
 
-  Market.withId(this.idmarket, this.marketname, this.marketype, this.marketdesc, this.marketloc);
+  Market.withId(this.idmarket, this.marketname, this.marketype, this.marketdesc, this.marketmail, this.marketphone, this.marketloc);
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};

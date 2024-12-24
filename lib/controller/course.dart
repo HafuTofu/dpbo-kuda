@@ -9,7 +9,7 @@ class Course {
   late String coursetype = 'Online';
   late int courseparticipants = 0;
 
-  Course(this.coursename, this.coursecategory, this.coursedesc, this.coursetype, this.coursecapacity);
+  Course(this.coursename, this.coursecategory, this.coursedesc, this.coursemail, this.coursephone, this.coursetype, this.coursecapacity);
 
   Course.withId(this.idcourse, this.coursename, this.coursecategory, this.coursedesc, this.coursetype, this.coursecapacity);
 
