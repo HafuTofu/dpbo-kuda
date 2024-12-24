@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import '../controller/sqlite.dart'; // Replace with your actual database helper class
-import 'materials.dart'; // Assuming this is your custom widget class
+import '../controller/sqlite.dart';
+import 'materials.dart';
+import 'detailcoursecard.dart';
 
 class KursusList extends StatelessWidget {
+  final int userId;
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
-  KursusList({super.key});
+  KursusList({super.key, required this.userId});
 
-  Future<List<Map<String, dynamic>>> fetchMarketData() async {
-    // Replace with your actual database query to fetch market data
-    return await _databaseHelper.getMarketMapList();
+  Future<List<Map<String, dynamic>>> fetchCourseData() async {
+    return await _databaseHelper.getCourseMapList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Materials().header(const Color(0xFF808080), 'Market Page'),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchMarketData(),
+        future: fetchCourseData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -27,7 +27,7 @@ class KursusList extends StatelessWidget {
             return const Center(child: Text('No data found'));
           }
 
-          final marketData = snapshot.data!;
+          final courseData = snapshot.data!;
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -38,68 +38,26 @@ class KursusList extends StatelessWidget {
                 mainAxisSpacing: 8.0,
                 childAspectRatio: 1.2,
               ),
-              itemCount: marketData.length,
+              itemCount: courseData.length,
               itemBuilder: (context, index) {
-                final market = marketData[index];               
-                return MarketCard(
-                  title: market['name'] ?? 'Unknown Market',
-                  location: market['location'] ?? 'Unknown Location',
-                  imageUrl: market['image_url'] ??
-                      'https://example.com/default_image.jpg',
-
-                );
-              },            
+                final course = courseData[index];
+                return GestureDetector(
+                    onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CourseDetailPage(
+                        userId: userId,
+                        courseId: course['id_course'] ?? 0, // Default to 0 if null
+                        color: Color(0xFF808080),
+                      ),
+                    ),
+                  );
+                },child: Materials().coursecard("images/pict-toko.png", course));
+              },
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class MarketCard extends StatelessWidget {
-  final String title;
-  final String location;
-  final String imageUrl;
-
-  const MarketCard({
-    required this.title,
-    required this.location,
-    required this.imageUrl,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.broken_image,
-                size: 50,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              location,
-              style: const TextStyle(color: Colors.grey),
-            ),
-          ),
-        ],
       ),
     );
   }

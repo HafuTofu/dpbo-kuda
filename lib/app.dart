@@ -1,4 +1,6 @@
+import 'package:dpbo_cig/kursus_list.dart';
 import 'package:dpbo_cig/login.dart';
+import 'package:dpbo_cig/market.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'materials.dart';
@@ -26,18 +28,8 @@ class _FooterState extends State<Home> {
   Widget build(BuildContext context) {
     List<Widget> bods =  [
     Dashboard(user: widget.user),
-    Center(
-      child: Text(
-        'Under\nMaintenance...',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ),
-    CourseDetailsScreen(),
+      KursusList(userId: widget.user.id!,),
+      MarketList(userId: widget.user.id!,),
     ProfilePage(user: widget.user,)
   ];
 

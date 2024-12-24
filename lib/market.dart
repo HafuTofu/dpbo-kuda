@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../controller/sqlite.dart'; // Replace with your actual database helper class
-import 'materials.dart'; // Assuming this is your custom widget class
+import '../controller/sqlite.dart';
+import 'materials.dart';
+import 'detailmarketcard.dart';
 
 class MarketList extends StatelessWidget {
+  final int userId;
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
-  MarketList({super.key});
+  MarketList({super.key, required this.userId});
 
   Future<List<Map<String, dynamic>>> fetchMarketData() async {
-    // Replace with your actual database query to fetch market data
-    return await _databaseHelper.getCourseMapList();
+    return await _databaseHelper.getMarketMapList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Materials().header(const Color(0xFF808080), 'Market Page'),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchMarketData(),
         builder: (context, snapshot) {
@@ -41,12 +41,19 @@ class MarketList extends StatelessWidget {
               itemCount: marketData.length,
               itemBuilder: (context, index) {
                 final market = marketData[index];
-                return MarketCard(
-                  title: market['name'] ?? 'Unknown Market',
-                  location: market['location'] ?? 'Unknown Location',
-                  imageUrl: market['image_url'] ??
-                      'https://example.com/default_image.jpg',
-                );
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MarketDetailPage(
+                            userId: userId,
+                            marketId: market['id_market'] ?? 0, // Default to 0 if null
+                            color: Color(0xFF9c9c9c),
+                          ),
+                        ),
+                      );
+                    },child: Materials().marketcard("images/pict-toko.png", market));
               },
             ),
           );
