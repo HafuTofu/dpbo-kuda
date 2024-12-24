@@ -24,6 +24,18 @@ class DatabaseHelper {
   )
   ''';
 
+  String marketTable = '''
+CREATE TABLE market(
+  id_market INTEGER PRIMARY KEY AUTOINCREMENT,
+  marketname TEXT NOT NULL,
+  marketype TEXT NOT NULL,
+  marketloc TEXT NOT NULL,
+  marketdesc TEXT NOT NULL,
+  marketphone TEXT NOT NULL,
+  marketmail TEXT NOT NULL
+)
+''';
+
   String courseTable = '''
 CREATE TABLE course(
   id_course INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,18 +60,6 @@ CREATE TABLE enrollment(
 )
 ''';
 
-  String marketTable = '''
-CREATE TABLE market(
-  id_market INTEGER PRIMARY KEY AUTOINCREMENT,
-  marketname TEXT NOT NULL,
-  marketype TEXT NOT NULL,
-  marketloc TEXT NOT NULL,
-  marketdesc TEXT NOT NULL,
-  marketphone TEXT NOT NULL,
-  marketmail TEXT NOT NULL
-)
-''';
-
   String marketsaveTable = '''
 CREATE TABLE marketsave(
   id_market INTEGER NOT NULL,
@@ -80,13 +80,18 @@ CREATE TABLE marketsave(
     String path = join(await getDatabasesPath(), databaseName);
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (db, version) async {
         await db.execute(userTable);
+        await db.execute(marketTable);
         await db.execute(courseTable);
         await db.execute(enrollmentTable);
-        await db.execute(marketTable);
         await db.execute(marketsaveTable);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute(marketTable);
+        }
       },
     );
   }
@@ -118,7 +123,7 @@ CREATE TABLE marketsave(
   Future<int> updateUser(User user) async {
     Database db = await database;
     var result = await db.update('user', user.toMap(),
-        where: 'id_user = ?', whereArgs: [user.id]);
+        where: 'id_user = ?', whereArgs: [user.id], conflictAlgorithm: ConflictAlgorithm.ignore);
     return result;
   }
 
@@ -127,6 +132,28 @@ CREATE TABLE marketsave(
     var result =
         await db.delete('user', where: 'id_user = ?', whereArgs: [user.id]);
     return result;
+  }
+
+  Future<int> getTotalEnrolled(User user) async {
+    final Database db = await database;
+    var result = await db.query(
+      'enrollment',
+      where: 'id_user = ?',
+      whereArgs: [user.id],
+    );
+    return result
+        .length; 
+  }
+
+  Future<int> getTotalSaved(User user) async {
+    final Database db = await database;
+    var result = await db.query(
+      'marketsave',
+      where: 'id_user = ?',
+      whereArgs: [user.id],
+    );
+    return result
+        .length; 
   }
 //USER END done
 
@@ -175,9 +202,10 @@ CREATE TABLE marketsave(
         course.toMap(),
         where: 'id_course = ?',
         whereArgs: [course.idcourse],
+        conflictAlgorithm: ConflictAlgorithm.ignore
       );
 
-      return await txn.insert('enrollment', enrollment.toMap());
+      return await txn.insert('enrollment', enrollment.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
     });
   }
 
@@ -209,13 +237,13 @@ CREATE TABLE marketsave(
 
   Future<int> registerMarket(Market market) async {
     Database db = await database;
-    return await db.insert('market', market.toMap());
+    return await db.insert('market', market.toMap(),conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   Future<int> updateMarket(Market market) async {
     Database db = await database;
     var result = await db.update('market', market.toMap(),
-        where: 'id_market = ?', whereArgs: [market.idmarket]);
+        where: 'id_market = ?', whereArgs: [market.idmarket],conflictAlgorithm: ConflictAlgorithm.ignore);
     return result;
   }
 
@@ -237,7 +265,7 @@ CREATE TABLE marketsave(
   Future<int> marketSave(MarketSave marketsave) async {
     Database db = await database;
     return await db.transaction((txn) async {
-      return await txn.insert('marketsave', marketsave.toMap());
+      return await txn.insert('marketsave', marketsave.toMap(),conflictAlgorithm: ConflictAlgorithm.ignore);
     });
   }
 
